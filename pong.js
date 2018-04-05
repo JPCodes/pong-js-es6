@@ -43,6 +43,15 @@ function update(dt) { // Delta Time; Function to Redraw Pong
   ball.pos.x += ball.vel.x * dt;
   ball.pos.y += ball.vel.y * dt;
 
+  // Detect if Ball touches bounds of Canvas
+  if (ball.pos.x < 0 || ball.pos.x > canvas.width) {
+    ball.vel.x = -ball.vel.x; // Velocity inversion
+  }
+
+  if (ball.pos.y < 0 || ball.pos.y > canvas.height) {
+    ball.vel.y = -ball.vel.y; // Velocity inversion
+  }
+
   // Game Board options
   context.fillStyle = '#000';
   context.fillRect(0, 0, canvas.width, canvas.height);
