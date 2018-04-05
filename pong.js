@@ -10,6 +10,27 @@ class Rect {
     this.pos = new Vec; // Give the Rect a position
     this.size = new Vec(w, h);
   }
+
+  // Get edges
+  get left() {
+    // return this.pos.x - this.size.x / 2; // Ex: 10 - 10 / 2 == 5
+    return this.pos.x;
+  }
+
+  get right() {
+    // return this.pos.x + this.size.x / 2; // Ex: 10 - 10 / 2 == 15
+    return this.pos.x + this.size.x;
+  }
+
+  get top() {
+    // return this.pos.y - this.size.y / 2; // Ex: 20 - 10 / 2 == 15
+    return this.pos.y;
+  }
+
+  get bottom() {
+    // return this.pos.y + this.size.y / 2; // Ex: 20 - 10 / 2 == 25
+    return this.pos.y + this.size.y;
+  }
 }
 
 class Ball extends Rect { // Ball inherits from the Rect class
