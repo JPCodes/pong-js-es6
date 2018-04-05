@@ -52,49 +52,56 @@ class Ball extends Rect { // Ball inherits from the Rect class
   };
 }
 
-const canvas = document.getElementById('pong');
-const context = canvas.getContext('2d');
-const ball = new Ball;
+class Pong {
+  constructor(canvas) {
+    this._canvas = canvas;
+    this._context = canvas.getContext('2d');
 
-ball.pos.x = 100;
-ball.pos.y = 50;
+    this.ball = new Ball;
 
-ball.vel.x = 100;
-ball.vel.y = 100;
+    this.ball.pos.x = 100;
+    this.ball.pos.y = 50;
 
-let lastTime; // Last Time page was loaded
+    this.ball.vel.x = 100;
+    this.ball.vel.y = 100;
 
-function callback(millis) { // Milliseconds coming from animation frame
-  if (lastTime) {
-    update((millis - lastTime) / 1000); // Calc how much time has elapsed & convert to whole seconds 
+    let lastTime; // Last Time page was loaded
+
+    const callback = (millis) => { // Milliseconds coming from animation frame; Converted to Arrow func because arrow funcs do not bind their on 'this', instead it's lexical
+      if (lastTime) {
+        this.update((millis - lastTime) / 1000); // Calc how much time has elapsed & convert to whole seconds 
+      }
+      lastTime = millis;
+      requestAnimationFrame(callback); // Request Animation Frame calls callback once, so we use recursion here
+    };
+    callback();
   }
-  lastTime = millis;
-  requestAnimationFrame(callback); // Request Animation Frame calls callback once, so we use recursion here
+
+  update(dt) { // Delta Time; Function to Redraw Pong
+    this.ball.pos.x += this.ball.vel.x * dt;
+    this.ball.pos.y += this.ball.vel.y * dt;
+
+    // Detect if Ball touches bounds of Canvas
+    if (this.ball.left < 0 || this.ball.right > this._canvas.width) {
+      this.ball.vel.x = -this.ball.vel.x; // Velocity inversion
+    }
+
+    if (this.ball.top < 0 || this.ball.bottom > this._canvas.height) {
+      this.ball.vel.y = -this.ball.vel.y; // Velocity inversion
+    }
+
+    // Game Board options
+    this._context.fillStyle = '#000';
+    this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
+
+    // Ball options
+    this._context.fillStyle = '#fff';
+    this._context.fillRect(this.ball.pos.x, this.ball.pos.y, this.ball.size.x, this.ball.size.y); // Ball Positioning & Sizing
+  }
 }
-
-function update(dt) { // Delta Time; Function to Redraw Pong
-  ball.pos.x += ball.vel.x * dt;
-  ball.pos.y += ball.vel.y * dt;
-
-  // Detect if Ball touches bounds of Canvas
-  if (ball.left < 0 || ball.right > canvas.width) {
-    ball.vel.x = -ball.vel.x; // Velocity inversion
-  }
-
-  if (ball.top < 0 || ball.bottom > canvas.height) {
-    ball.vel.y = -ball.vel.y; // Velocity inversion
-  }
-
-  // Game Board options
-  context.fillStyle = '#000';
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  
-  // Ball options
-  context.fillStyle = '#fff';
-  context.fillRect(ball.pos.x, ball.pos.y, ball.size.x, ball.size.y); // Ball Positioning & Sizing
-}
-
-callback();
 
 // Run Flow:
 // Create Board & Ball, Set options (pos, vel, size), callback called manually once, callback runs recursively
+
+const canvas = document.getElementById('pong');
+const pong = new Pong(canvas);
