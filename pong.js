@@ -77,6 +77,20 @@ class Pong {
     callback();
   }
 
+  drawBall(rect) {
+    // Ball options
+    this._context.fillStyle = '#fff';
+    this._context.fillRect(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y); // Ball Positioning & Sizing
+  }
+
+  draw() {
+    // Game Board options
+    this._context.fillStyle = '#000';
+    this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
+
+    this.drawBall(this.ball)
+  }
+
   update(dt) { // Delta Time; Function to Redraw Pong
     this.ball.pos.x += this.ball.vel.x * dt;
     this.ball.pos.y += this.ball.vel.y * dt;
@@ -90,13 +104,7 @@ class Pong {
       this.ball.vel.y = -this.ball.vel.y; // Velocity inversion
     }
 
-    // Game Board options
-    this._context.fillStyle = '#000';
-    this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
-
-    // Ball options
-    this._context.fillStyle = '#fff';
-    this._context.fillRect(this.ball.pos.x, this.ball.pos.y, this.ball.size.x, this.ball.size.y); // Ball Positioning & Sizing
+    this.draw();
   }
 }
 
