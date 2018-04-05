@@ -44,11 +44,11 @@ function update(dt) { // Delta Time; Function to Redraw Pong
   ball.pos.y += ball.vel.y * dt;
 
   // Detect if Ball touches bounds of Canvas
-  if (ball.pos.x < 0 || ball.pos.x > canvas.width) {
+  if (ball.pos.x < 0 || ball.pos.x > canvas.width-ball.size.x) {
     ball.vel.x = -ball.vel.x; // Velocity inversion
   }
 
-  if (ball.pos.y < 0 || ball.pos.y > canvas.height) {
+  if (ball.pos.y < 0 || ball.pos.y > canvas.height-ball.size.y) {
     ball.vel.y = -ball.vel.y; // Velocity inversion
   }
 
