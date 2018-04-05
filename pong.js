@@ -38,6 +38,18 @@ class Ball extends Rect { // Ball inherits from the Rect class
     super(10, 10); // Set size on Rect (Set size of ball)
     this.vel = new Vec // Velocity
   }
+
+  get pause() {
+    ball.vel.x = 0
+    ball.vel.y = 0
+  };
+
+  get reset() {
+    ball.pos.x = 10
+    ball.pos.y = 20
+    ball.vel.x = 0
+    ball.vel.y = 0
+  };
 }
 
 const canvas = document.getElementById('pong');
