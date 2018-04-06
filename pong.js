@@ -12,28 +12,22 @@ class Rect {
   }
 
   // Get edges
+    // pong.ball.pos.x & pong.ball.pos.y are the middle of the ball
+    // pong.ball.pos.x +- 1/2 size ball & pong.ball.pos.y +- 1/2 size of ball are any edges
   get left() {
-    return this.pos.x;
+    return this.pos.x - this.size.x / 2;
   }
 
   get right() {
-    return this.pos.x + this.size.x;
+    return this.pos.x + this.size.x / 2;
   }
 
   get top() {
-    return this.pos.y;
+    return this.pos.y - this.size.y / 2;
   }
 
   get bottom() {
-    return this.pos.y + this.size.y;
-  }
-
-  get centerHorizontal() {
-    return this.pos.x - this.size.x / 2; // Ex: 10 - 10 / 2 == 5
-  }
-  
-  get centerVertical() {
-    return this.pos.y - this.size.y / 2; // Ex: 20 - 10 / 2 == 15
+    return this.pos.y + this.size.x / 2;
   }
 }
 
@@ -42,18 +36,6 @@ class Ball extends Rect { // Ball inherits from the Rect class
     super(10, 10); // Set size on Rect (Set size of ball)
     this.vel = new Vec // Velocity
   }
-
-  get pause() {
-    ball.vel.x = 0
-    ball.vel.y = 0
-  };
-
-  get reset() {
-    ball.pos.x = 10
-    ball.pos.y = 20
-    ball.vel.x = 0
-    ball.vel.y = 0
-  };
 }
 
 class Player extends Rect {
@@ -102,10 +84,22 @@ class Pong {
   drawRect(rect) {
     this._context.fillStyle = '#fff';
     this._context.fillRect(
-      rect.centerHorizontal, rect.centerVertical, // Fill from center out
+      rect.left, rect.top, // Fill from center out
       rect.size.x, rect.size.y
     );
   }
+
+  pause() {
+    this.ball.vel.x = 0
+    this.ball.vel.y = 0
+  };
+
+  reset() {
+    this.ball.pos.x = 10
+    this.ball.pos.y = 20
+    this.ball.vel.x = 0
+    this.ball.vel.y = 0
+  };
 
   draw() {
     // Game Board options
