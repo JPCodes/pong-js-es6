@@ -13,23 +13,27 @@ class Rect {
 
   // Get edges
   get left() {
-    // return this.pos.x - this.size.x / 2; // Ex: 10 - 10 / 2 == 5
     return this.pos.x;
   }
 
   get right() {
-    // return this.pos.x + this.size.x / 2; // Ex: 10 - 10 / 2 == 15
     return this.pos.x + this.size.x;
   }
 
   get top() {
-    // return this.pos.y - this.size.y / 2; // Ex: 20 - 10 / 2 == 15
     return this.pos.y;
   }
 
   get bottom() {
-    // return this.pos.y + this.size.y / 2; // Ex: 20 - 10 / 2 == 25
     return this.pos.y + this.size.y;
+  }
+
+  get centerHorizontal() {
+    return this.pos.x - this.size.x / 2; // Ex: 10 - 10 / 2 == 5
+  }
+  
+  get centerVertical() {
+    return this.pos.y - this.size.y / 2; // Ex: 20 - 10 / 2 == 15
   }
 }
 
@@ -77,6 +81,12 @@ class Pong {
       new Player
     ];
 
+    this.players[0].pos.x = 40; // 40px from the left
+    this.players[1].pos.x = this._canvas.width - 40; // 40px from the right
+    this.players.forEach(player => {
+      player.pos.y = this._canvas.height / 2; // Center Vertically
+    });
+
     let lastTime; // Last Time page was loaded
 
     const callback = (millis) => { // Milliseconds coming from animation frame; Converted to Arrow func because arrow funcs do not bind their on 'this', instead it's lexical
@@ -90,9 +100,11 @@ class Pong {
   }
 
   drawRect(rect) {
-    // Ball options
     this._context.fillStyle = '#fff';
-    this._context.fillRect(rect.pos.x, rect.pos.y, rect.size.x, rect.size.y); // Ball Positioning & Sizing
+    this._context.fillRect(
+      rect.centerHorizontal, rect.centerVertical, // Fill from center out
+      rect.size.x, rect.size.y
+    );
   }
 
   draw() {
