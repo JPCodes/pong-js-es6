@@ -129,6 +129,8 @@ class Pong {
       this.ball.vel.y = -this.ball.vel.y; // Velocity inversion
     }
 
+    this.players[1].pos.y = this.ball.pos.y;
+
     this.draw();
   }
 }
