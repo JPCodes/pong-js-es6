@@ -8,10 +8,10 @@ class Vec { // Used for X, Y positioning, velocity, size
     return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
   }
 
-  set hypotenuse(value) {
+  set scalar(value) {
     const factr = value / this.hypotenuse; // factr = factor
-    this.x *= fact;
-    this.y *= fact;
+    this.x *= factr;
+    this.y *= factr;
   }
 }
 
@@ -108,8 +108,9 @@ class Pong {
 
   start() {
     if(this.ball.vel.x === 0 && this.ball.vel.y === 0) {
-      this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 chance of direction on X axis
-      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis direction
+      this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 Direction on X axis
+      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis Direction
+      this.ball.vel.scalar = 200; // Speed
     }
   }
 
