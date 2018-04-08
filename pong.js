@@ -1,4 +1,4 @@
-class Vec { // X, Y positioning & velocity
+class Vec { // Used for X, Y positioning, velocity, size
   constructor(x = 0, y = 0) {
     this.x = x;
     this.y = y;
@@ -79,7 +79,7 @@ class Pong {
   drawRect(rect) {
     this._context.fillStyle = '#fff';
     this._context.fillRect(
-      rect.left, rect.top, // Fill from center out
+      rect.left, rect.top, // Fill
       rect.size.x, rect.size.y
     );
   }
