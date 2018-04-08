@@ -4,13 +4,13 @@ class Vec { // Used for X, Y positioning, velocity, size
     this.y = y;
   }
 
-  get hypotenuse() {
+  get hypotenuse() { // Vector of X & Y Directions
     return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
   }
-
-  set scalar(value) {
+  
+  set scalar(value) { // Unified Speed func
     const factr = value / this.hypotenuse; // factr = factor
-    this.x *= factr;
+    this.x *= factr; // Slow your roll
     this.y *= factr;
   }
 }
@@ -109,8 +109,8 @@ class Pong {
   start() {
     if(this.ball.vel.x === 0 && this.ball.vel.y === 0) {
       this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 Direction on X axis
-      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis Direction
-      this.ball.vel.scalar = 200; // Speed
+      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis Direction, -300 to 300
+      this.ball.vel.scalar = 200; // Unified Speed (or Length (via Hypotenuse) traveled per duration)
     }
   }
 
