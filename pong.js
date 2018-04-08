@@ -52,12 +52,6 @@ class Pong {
 
     this.ball = new Ball;
 
-    this.ball.pos.x = 100;
-    this.ball.pos.y = 50;
-
-    this.ball.vel.x = 100;
-    this.ball.vel.y = 100;
-
     this.players = [
       new Player,
       new Player
@@ -79,6 +73,7 @@ class Pong {
       requestAnimationFrame(callback); // Request Animation Frame calls callback once, so we use recursion here
     };
     callback();
+    this.reset(); // Sets the ball for game start
   }
 
   drawRect(rect) {
@@ -95,11 +90,18 @@ class Pong {
   };
 
   reset() {
-    this.ball.pos.x = 10
-    this.ball.pos.y = 20
-    this.ball.vel.x = 0
-    this.ball.vel.y = 0
+    this.ball.pos.x = this._canvas.width / 2;
+    this.ball.pos.y = this._canvas.height / 2;
+    this.ball.vel.x = 0;
+    this.ball.vel.y = 0;
   };
+
+  start() {
+    if(this.ball.vel.x === 0 && this.ball.vel.y === 0) {
+      this.ball.vel.x = 300;
+      this.ball.vel.y = 300;
+    }
+  }
 
   draw() {
     // Game Board options
@@ -148,4 +150,8 @@ const pong = new Pong(canvas);
 
 canvas.addEventListener('mousemove', enter => {
   pong.players[0].pos.y = event.offsetY;
+});
+
+canvas.addEventListener('click', enter => {
+  pong.start();
 });
