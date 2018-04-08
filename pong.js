@@ -123,7 +123,16 @@ class Pong {
 
     // Detect if Ball touches bounds of Canvas
     if (this.ball.left < 0 || this.ball.right > this._canvas.width) {
-      this.ball.vel.x = -this.ball.vel.x; // Velocity inversion
+      const playerId = this.ball.vel.x < 0 | 0;
+      // let playerId;
+      // if (this.ball.vel.x < 0) { // AI has scored
+      //   playerId = 1;
+      // } else { // Player has scored
+      //   playerId = 0;
+      // }
+      console.log(playerId);
+      
+      // this.ball.vel.x = -this.ball.vel.x; // Velocity inversion
     }
 
     if (this.ball.top < 0 || this.ball.bottom > this._canvas.height) {
