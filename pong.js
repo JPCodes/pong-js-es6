@@ -3,6 +3,16 @@ class Vec { // Used for X, Y positioning, velocity, size
     this.x = x;
     this.y = y;
   }
+
+  get hypotenuse() {
+    return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+  }
+
+  set hypotenuse(value) {
+    const factr = value / this.hypotenuse; // factr = factor
+    this.x *= fact;
+    this.y *= fact;
+  }
 }
 
 class Rect {
