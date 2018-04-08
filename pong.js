@@ -106,9 +106,16 @@ class Pong {
     this._context.fillStyle = '#000';
     this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
 
-    this.drawRect(this.ball)
+    this.drawRect(this.ball);
     this.players.forEach(player => this.drawRect(player));
   }
+
+  collide(player, ball) {
+    if (player.left < ball.right && player.right > ball.left && player.top < ball.bottom && player.bottom > ball.top) {
+      ball.vel.x = -ball.vel.x;
+    }
+  }
+
 
   update(dt) { // Delta Time; Function to Redraw Pong
     this.ball.pos.x += this.ball.vel.x * dt;
@@ -123,7 +130,9 @@ class Pong {
       this.ball.vel.y = -this.ball.vel.y; // Velocity inversion
     }
 
-    this.players[1].pos.y = this.ball.pos.y;
+    this.players[1].pos.y = this.ball.pos.y; // AI follows ball perfectly
+
+    this.players.forEach(player => this.collide(player, this.ball));
 
     this.draw();
   }
