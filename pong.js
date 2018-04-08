@@ -98,8 +98,8 @@ class Pong {
 
   start() {
     if(this.ball.vel.x === 0 && this.ball.vel.y === 0) {
-      this.ball.vel.x = 300;
-      this.ball.vel.y = 300;
+      this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 chance of direction on X axis
+      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis direction
     }
   }
 
