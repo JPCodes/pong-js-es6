@@ -8,9 +8,9 @@ class Vec { // Used for X, Y positioning, velocity, size
     return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
   }
   
-  set scalar(value) { // Unified Speed func
+  set scalar(value) { // Normalize Speed func
     const factr = value / this.hypotenuse; // factr = factor
-    this.x *= factr; // Slow your roll
+    this.x *= factr; // Slow your roll (normalize X)
     this.y *= factr;
   }
 }
@@ -108,9 +108,9 @@ class Pong {
 
   start() {
     if(this.ball.vel.x === 0 && this.ball.vel.y === 0) {
-      this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 Direction on X axis
-      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis Direction, -300 to 300
-      this.ball.vel.scalar = 200; // Unified Speed (or Length (via Hypotenuse) traveled per duration)
+      this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 direction on X axis, -300 or 300 = 2 X directions
+      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis direction, -300 to 300 = 600 Y directions
+      this.ball.vel.scalar = 250; // Normalize Speed (or Length traveled per duration (Rate)) (Length is calc'd via Hypotenuse func); Integer passed is a length/speed to Normalize to
     }
   }
 
