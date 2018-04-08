@@ -27,7 +27,7 @@ class Rect {
   }
 
   get bottom() {
-    return this.pos.y + this.size.x / 2;
+    return this.pos.y + this.size.y / 2;
   }
 }
 
@@ -112,7 +112,7 @@ class Pong {
     this.players.forEach(player => this.drawRect(player));
   }
 
-  collide(player, ball) {
+  collide(player, ball) { // Paddle Collision
     if (player.left < ball.right && player.right > ball.left && player.top < ball.bottom && player.bottom > ball.top) {
       ball.vel.x = -ball.vel.x;
     }
@@ -136,7 +136,7 @@ class Pong {
 
     this.players[1].pos.y = this.ball.pos.y; // AI follows ball perfectly
 
-    this.players.forEach(player => this.collide(player, this.ball));
+    this.players.forEach(player => this.collide(player, this.ball)); // Check collision
 
     this.draw();
   }
