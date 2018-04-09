@@ -73,6 +73,8 @@ class Pong {
       player.pos.y = this._canvas.height / 2; // Center Vertically
     });
 
+    this.aiActive = false;
+
     let lastTime; // Last Time page was loaded
 
     const callback = (millis) => { // Milliseconds coming from animation frame; Converted to Arrow func because arrow funcs do not bind their own 'this', instead it's lexical
@@ -217,6 +219,7 @@ class Pong {
       this.ball.vel.y = -this.ball.vel.y; // Velocity inversion
     }
 
+    this.aiActive && (this.players[0].pos.y = this.ball.pos.y - 40);
     this.players[1].pos.y = this.ball.pos.y; // AI follows ball perfectly
 
     this.players.forEach(player => this.collide(player, this.ball)); // Check collision
@@ -238,4 +241,10 @@ canvas.addEventListener('mousemove', enter => {
 
 canvas.addEventListener('click', enter => {
   pong.start();
+});
+
+const aiPlayer = document.getElementById('ai');
+
+aiPlayer.addEventListener('click', enter => {
+  pong.aiActive = true;
 });
