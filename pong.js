@@ -246,5 +246,5 @@ canvas.addEventListener('click', enter => {
 const aiPlayer = document.getElementById('ai');
 
 aiPlayer.addEventListener('click', enter => {
-  pong.aiActive = true;
+  pong.aiActive = !pong.aiActive;
 });
