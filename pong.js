@@ -139,6 +139,25 @@ class Pong {
     );
   }
 
+  drawScore() {
+    const align = this._canvas.width / 3; // Divide Canvas into 3 sections lengthwise, 600 -> 000 200 400 (coordinates of X)
+    const CHAR_WIDTH = this.CHAR_SIZE * 4; // Every CHAR is 3 column width (see diagram above), 1 added for space so: CHAR_SIZEpx * 4 width == 40px width alotted for each char
+    this.players.forEach((player, index) => {
+      const chars = player.score.toString().split(''); // Ex.: AI Score of 15 -> '15'
+      const offset = align * (index + 1) - // 200 (player) or 400 (AI), signifies player score position (Off-centered) (This calc moves the score right)
+                     (CHAR_WIDTH * chars.length / 2) + // Ex.: (Score 0-9) 40 * 1 / 2 == 20, (Score 10-99) 40 * 2 / 2 == 40; Div by 2 helps w/ higher score (This calc moves the score left)
+                     this.CHAR_SIZE / 2; // Finally, compensate for 1/2 char size (This calc moves the score slight right to pass the X coordinate)
+      // Total AI (Score 0-9): 400 - 20 + 5 (385); Total AI (Score 0-99): 400 - 40 + 5 (365); Each digit adds 20 pixels in offset
+      // Simple Offset Summary: Find current player's score position, move it left 20px * digits (to prevent early overlap), move it right 5px
+      chars.forEach((char, pos) => {
+        // Draw on Context of Pong Canvas
+        this._context.drawImage(this.CHARS[char|0], // Image; |0 converts to int
+                                offset + pos * CHAR_WIDTH, // X Coordinate; pos refers to each digit's index; Ex.: (Score: 0-99) 365 + 1 * 40 == 405
+                                20); // Y Coordinate
+      });
+    });
+  }
+
   pause() {
     this.ball.vel.x = 0
     this.ball.vel.y = 0
