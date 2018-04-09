@@ -75,7 +75,7 @@ class Pong {
 
     let lastTime; // Last Time page was loaded
 
-    const callback = (millis) => { // Milliseconds coming from animation frame; Converted to Arrow func because arrow funcs do not bind their on 'this', instead it's lexical
+    const callback = (millis) => { // Milliseconds coming from animation frame; Converted to Arrow func because arrow funcs do not bind their own 'this', instead it's lexical
       if (lastTime) {
         this.update((millis - lastTime) / 1000); // Calc how much time has elapsed & convert to whole seconds 
       }
