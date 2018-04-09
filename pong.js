@@ -4,12 +4,12 @@ class Vec { // Used for X, Y positioning, velocity, size
     this.y = y;
   }
 
-  get hypotenuse() { // Vector of X & Y Directions
+  get scalarHypotenuse() { // Vector of X & Y Directions
     return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
   }
   
-  set scalar(value) { // Normalize Speed func
-    const factr = value / this.hypotenuse; // factr = factor
+  set scalarHypotenuse(value) { // Normalize Speed func
+    const factr = value / this.scalarHypotenuse; // factr = factor
     this.x *= factr; // Slow your roll (normalize X)
     this.y *= factr;
   }
@@ -112,7 +112,7 @@ class Pong {
       this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 direction on X axis, -300 or 300 = 2 X directions (Left & Right)
       this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis direction, -300 to 300 = 600 Y directions (Up/Down Combinations)
       // Speed Normalize
-      this.ball.vel.scalar = 250; // Normalize Speed (or Length traveled per duration (Rate)) (Length is calc'd via Hypotenuse func); Integer passed is a length/speed to Normalize to
+      this.ball.vel.scalarHypotenuse = 250; // Normalize Speed (or Length traveled per duration (Rate)) (Length is calc'd via scalarHypotenuse getter); Integer passed is a speed to Normalize to
     }
   }
 
@@ -128,6 +128,7 @@ class Pong {
   collide(player, ball) { // Paddle Collision
     if (player.left < ball.right && player.right > ball.left && player.top < ball.bottom && player.bottom > ball.top) {
       ball.vel.x = -ball.vel.x;
+      ball.vel.scalarHypotenuse *= 1.05; // Speed by 5%
     }
   }
 
