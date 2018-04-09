@@ -15,4 +15,11 @@ canvas {
 #ai {
   display: block;
   margin: 0 auto;
+  padding: 10px;
+  cursor: pointer;
+  background: #ff0000;
+  border: 1px solid #fff;
+  color: #fff;
+  font-size: 16px;
+  min-width: 150px;
 }
