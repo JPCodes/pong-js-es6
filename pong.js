@@ -108,9 +108,9 @@ class Pong {
 
   start() {
     if(this.ball.vel.x === 0 && this.ball.vel.y === 0) {
-      // Direction Randomize
-      this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 direction on X axis, -300 or 300 = 2 X directions (Left & Right)
-      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis direction, -300 to 300 = 600 Y directions (Up/Down Combinations)
+      // Direction & Speed Randomize
+      this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 direction & speed on X axis, -300 or 300 = 2 X directions (Left & Right)
+      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis direction & speed, -300 to 300 = 600 Y directions (Up/Down Combinations)
       // Speed Normalize
       this.ball.vel.scalarHypotenuse = 250; // Normalize Speed (or Length traveled per duration (Rate)) (Length is calc'd via scalarHypotenuse getter); Integer passed is a speed to Normalize to
     }
