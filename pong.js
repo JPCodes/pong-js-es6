@@ -128,7 +128,9 @@ class Pong {
   collide(player, ball) { // Paddle Collision
     if (player.left < ball.right && player.right > ball.left && player.top < ball.bottom && player.bottom > ball.top) {
       ball.vel.x = -ball.vel.x;
-      ball.vel.speedNormalizer *= 1.05; // Speed by 5%
+      const speedNormalizer = ball.vel.speedNormalizer;
+      ball.vel.y += 300 * (Math.random() - .4);
+      ball.vel.speedNormalizer = speedNormalizer * 1.05; // Speed by 5%
     }
   }
 
