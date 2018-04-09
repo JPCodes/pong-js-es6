@@ -83,6 +83,51 @@ class Pong {
       requestAnimationFrame(callback); // Request Animation Frame calls callback once, so we use recursion here
     };
     callback();
+
+    // Pixel Size of Chars
+    this.CHAR_SIZE = 10;
+
+    // Digital Clock-style number Matrices
+    this.CHARS = [
+      '111101101101111',
+      '010010010010010',
+      '111001111100111',
+      '111001111001111',
+      '101101111001001',
+      '111100111001111',
+      '111100111101111',
+      '111001001001001',
+      '111101111101111',
+      '111101111001111'
+    ].map(diagram => {
+      // Create Canvas, Set Dimensions, Context, Fill
+      const canvas = document.createElement('canvas');
+      canvas.width = this.CHAR_SIZE * 3;
+      canvas.height = this.CHAR_SIZE * 5;
+      const context = canvas.getContext('2d');
+      context.fillStyle = '#fff';
+
+      // Paint Diagram sections
+      diagram.split('').forEach((fill, i) => {
+        if(fill === '1') {
+          context.fillRect(
+            (i % 3) * this.CHAR_SIZE, // Left (Top) of Rect, X axis; % operator to figure for 3 width
+            (i / 3 | 0) * this.CHAR_SIZE, // Top (Left) of Rect, Y axis; | operator will floor the float number
+            this.CHAR_SIZE, // Width
+            this.CHAR_SIZE // Height
+          );
+        }
+      });
+      return canvas;
+    });
+
+    // Digital Clock-style number structure example:
+    // '111' Dimensions: 3 column width, 5 column height
+    // '101' Imagine that the 1's are edges/lines and the 0's are empty space
+    // '101' this diagram/matrix would spell out 0 (like a digital clock)
+    // '101'
+    // '111' Edge X coordinates are calculated: CHAR_SIZE * ColumnNumber (Resulting in 0, 10, or 20)
+
     this.reset(); // Sets the ball for game start
   }
 
