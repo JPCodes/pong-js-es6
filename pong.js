@@ -83,6 +83,51 @@ class Pong {
       requestAnimationFrame(callback); // Request Animation Frame calls callback once, so we use recursion here
     };
     callback();
+
+    // Pixel Size of Chars
+    this.CHAR_SIZE = 10;
+
+    // Digital Clock-style number Matrices
+    this.CHARS = [
+      '111101101101111',
+      '010010010010010',
+      '111001111100111',
+      '111001111001111',
+      '101101111001001',
+      '111100111001111',
+      '111100111101111',
+      '111001001001001',
+      '111101111101111',
+      '111101111001111'
+    ].map(diagram => {
+      // Create Canvas, Set Dimensions, Context, Fill
+      const canvas = document.createElement('canvas');
+      canvas.width = this.CHAR_SIZE * 3;
+      canvas.height = this.CHAR_SIZE * 5;
+      const context = canvas.getContext('2d');
+      context.fillStyle = '#fff';
+
+      // Paint Diagram sections
+      diagram.split('').forEach((fill, i) => {
+        if(fill === '1') {
+          context.fillRect(
+            (i % 3) * this.CHAR_SIZE, // Left (Top) of Rect, X axis; % operator to figure for 3 width
+            (i / 3 | 0) * this.CHAR_SIZE, // Top (Left) of Rect, Y axis; | operator will floor the float number
+            this.CHAR_SIZE, // Width
+            this.CHAR_SIZE // Height
+          );
+        }
+      });
+      return canvas;
+    });
+
+    // Digital Clock-style number structure example:
+    // '111' Dimensions: 3 column width, 5 column height
+    // '101' Imagine that the 1's are edges/lines and the 0's are empty space
+    // '101' this diagram/matrix would spell out 0 (like a digital clock)
+    // '101'
+    // '111' Edge X coordinates are calculated: CHAR_SIZE * ColumnNumber (Resulting in 0, 10, or 20)
+
     this.reset(); // Sets the ball for game start
   }
 
@@ -92,6 +137,25 @@ class Pong {
       rect.left, rect.top, // Fill
       rect.size.x, rect.size.y
     );
+  }
+
+  drawScore() {
+    const align = this._canvas.width / 3; // Divide Canvas into 3 sections lengthwise, 600 -> 000 200 400 (coordinates of X)
+    const CHAR_WIDTH = this.CHAR_SIZE * 4; // Every CHAR is 3 column width (see diagram above), 1 added for space so: CHAR_SIZEpx * 4 width == 40px width alotted for each char
+    this.players.forEach((player, index) => {
+      const chars = player.score.toString().split(''); // Ex.: AI Score of 15 -> '15'
+      const offset = align * (index + 1) - // 200 (player) or 400 (AI), signifies player score position (Off-centered) (This calc moves the score right)
+                     (CHAR_WIDTH * chars.length / 2) + // Ex.: (Score 0-9) 40 * 1 / 2 == 20, (Score 10-99) 40 * 2 / 2 == 40; Div by 2 helps w/ higher score (This calc moves the score left)
+                     this.CHAR_SIZE / 2; // Finally, compensate for 1/2 char size (This calc moves the score slight right to pass the X coordinate)
+      // Total AI (Score 0-9): 400 - 20 + 5 (385); Total AI (Score 0-99): 400 - 40 + 5 (365); Each digit adds 20 pixels in offset
+      // Simple Offset Summary: Find current player's score position, move it left 20px * digits (to prevent early overlap), move it right 5px
+      chars.forEach((char, pos) => {
+        // Draw on Context of Pong Canvas
+        this._context.drawImage(this.CHARS[char|0], // Image; |0 converts to int
+                                offset + pos * CHAR_WIDTH, // X Coordinate; pos refers to each digit's index; Ex.: (Score: 0-99) 365 + 1 * 40 == 405
+                                20); // Y Coordinate
+      });
+    });
   }
 
   pause() {
@@ -110,9 +174,9 @@ class Pong {
     if(this.ball.vel.x === 0 && this.ball.vel.y === 0) {
       // Direction & Speed Randomize
       this.ball.vel.x = 300 * (Math.random() > .5 ? 1 : -1); // 50/50 direction & speed on X axis, -300 or 300 = 2 X directions (Left & Right)
-      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis direction & speed, -300 to 300 = 600 Y directions (Up/Down Combinations) (Not counting decimal combinations)
+      this.ball.vel.y = 300 * (Math.random() * 2 - 1); // Y axis direction & speed, -300 to 300 = 600 Y directions (Up/Down Combinations) (Not counting float combinations)
       // Speed Normalize
-      this.ball.vel.speedNormalizer = 250; // Normalize Speed (or Length traveled per duration (Rate)) (Length is calc'd via speedNormalizer getter); Integer passed is a speed to Normalize to
+      this.ball.vel.speedNormalizer = 200; // Normalize Speed (or Length traveled per duration (Rate)) (Length is calc'd via speedNormalizer getter); Integer passed is a speed to Normalize to
     }
   }
 
@@ -123,6 +187,8 @@ class Pong {
 
     this.drawRect(this.ball);
     this.players.forEach(player => this.drawRect(player));
+
+    this.drawScore();
   }
 
   collide(player, ball) { // Paddle Collision
