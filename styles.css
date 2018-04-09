@@ -1,7 +1,5 @@
 body {
   background: #000;
-  display: flex;
-  justify-content: center;
   margin: 0;
 }
 
@@ -10,4 +8,18 @@ canvas {
   /* https://css-tricks.com/almanac/properties/i/image-rendering/ */
   height: 100%;
   width: 75%;
+  display: block;
+  margin: 0 auto;
+}
+
+#ai {
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+  cursor: pointer;
+  background: #ff0000;
+  border: 1px solid #fff;
+  color: #fff;
+  font-size: 16px;
+  min-width: 150px;
 }
