@@ -142,6 +142,7 @@ class Pong {
     // Detect if Ball touches bounds of Canvas
     if (this.ball.left < 0 || this.ball.right > this._canvas.width) {
       const playerId = this.ball.vel.x < 0 | 0; // Results in integer 0 or 1; True is 1, 0 is false
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#.7c_%28Bitwise_OR%29
       this.players[playerId].score++
       this.reset();
     }
